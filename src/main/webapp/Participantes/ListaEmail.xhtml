@@ -1,0 +1,95 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	template="/templates/Layout.xhtml">
+
+
+	<ui:define name="content">
+		<f:metadata>
+			<o:viewParam name="questionario"
+				value="#{listaEmailBean.questionario}" />
+		</f:metadata>
+
+
+		<h:form id="frm" prependId="false">
+
+			<h:inputHidden id="id" value="#{listaEmailBean.questionario.id}"
+				readonly="true" />
+
+
+			<h3 class="page-title">
+				<i class="fa fa-gg" style="color: #1caf9a; font-size: 23px" />
+				Listar Email
+			</h3>
+
+			<div class="clearfix"></div>
+			<div class="row">
+				<div class="col-md-12 col-sm-12">
+
+					<div class="portlet light ">
+						<div class="portlet-title">
+
+							<p:messages id="msgs" closable="true">
+								<p:effect type="pulsate" event="load" delay="500" />
+							</p:messages>
+
+							<div class="portlet">
+								<div class="portlet-title">
+
+
+									<p:toolbar id="toolbar"
+										style="margin-top: 10px; background-color:#fff;">
+										<p:toolbarGroup>
+											<p:commandButton ajax="false" value="Adicionar" styleClass="btn btn-sm blue"
+												icon="fa fa-plus"
+												action="#{listaEmailBean.salvar}" />
+										</p:toolbarGroup>
+										
+													<p:toolbarGroup align="right">
+													<p:button value="Pesquisar"  icon="fa fa-search"  styleClass="btn btn-sm green" outcome="../Questionario/Questionario.xhtml" />
+													</p:toolbarGroup>
+
+									</p:toolbar>
+								</div>
+							</div>
+
+
+							<p:dataTable id="participantesTable" var="participantes"
+								paginatorPosition="bottom" paginator="true" rows="10"
+								value="#{listaEmailBean.listarParticpantes}"
+								selection="#{listaEmailBean.participantesSelecionados}"
+								rowKey="#{participantes.id}">
+
+								<f:facet name="header">
+                                    Participantes
+                                    </f:facet>
+								<p:column selectionMode="multiple"
+									field="#{participantes.selecionado}"
+									style="width:80px; text-align:center" />
+
+								<p:column headerText="Nome">  
+                                     #{participantes.nome}  
+                                    </p:column>
+
+								<p:column headerText="Email">  
+                                     #{participantes.email}  
+                                    </p:column>
+
+								<f:facet name="footer">
+
+								</f:facet>
+
+							</p:dataTable>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

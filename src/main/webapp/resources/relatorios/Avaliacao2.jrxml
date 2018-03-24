@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Avaliacao" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="836c24bd-eaef-4862-a1ff-64d14a59a6fb">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#999999"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#7FFFD4">
+		<box>
+			<pen lineWidth="0.5" lineColor="#999999"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFFFEA">
+		<box>
+			<pen lineWidth="0.5" lineColor="#999999"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#999999"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#999999"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#191970">
+		<box>
+			<pen lineWidth="0.5" lineColor="#999999"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFBFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#999999"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#999999"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#B20000">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#009999">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<subDataset name="Resposta" uuid="5b256b0b-c77c-473b-9f92-d7f90caccadf">
+		<parameter name="questaoID" class="java.lang.Integer"/>
+		<parameter name="idQuestao" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[select id,resposta from respostas WHERE numeroquestao_id = $P{questaoID}
+AND questao_id = $P{idQuestao}]]>
+		</queryString>
+		<field name="id" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="resposta" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<parameter name="questionarioID" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[select q.id,q.questao,q.numeroquestao_id,qe.titulo,s.descricao,emp.nome,emp.razao,emp.cnpj,emp.logo from questao AS q inner join questionario as qe
+ON (qe.id = q.questionario_id)
+inner join setor as s ON (q.setor_id = s.id)
+inner join empresa as emp ON (emp.id = qe.empresa_id)
+ WHERE q.questionario_id = $P{questionarioID}]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="questao" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numeroquestao_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="titulo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="descricao" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nome" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="razao" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cnpj" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="logo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<group name="questao">
+		<groupExpression><![CDATA[$F{questao}]]></groupExpression>
+		<groupHeader>
+			<band height="72">
+				<textField>
+					<reportElement x="34" y="27" width="518" height="39" forecolor="#333333" uuid="305891cd-0a2d-4563-accf-76078283da0e"/>
+					<textElement verticalAlignment="Top">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{questao}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="1" y="24" width="13" height="24" forecolor="#333333" uuid="1d48a6cf-2598-4966-96d5-c86b10bd0efb"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{numeroquestao_id}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="14" y="23" width="9" height="24" forecolor="#333333" uuid="151ecef1-0099-4dd3-baf9-2ed592585c2d"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[.)]]></text>
+				</staticText>
+				<line>
+					<reportElement x="2" y="70" width="550" height="1" uuid="6d9accd4-5fa6-43bf-8caf-32af89fd7d74"/>
+					<graphicElement>
+						<pen lineWidth="0.25" lineStyle="Dashed"/>
+					</graphicElement>
+				</line>
+				<textField>
+					<reportElement x="3" y="2" width="549" height="22" forecolor="#333333" uuid="36e54de5-e4e3-43e8-a15b-2453ecf8974c"/>
+					<textElement verticalAlignment="Top">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="82" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="70" width="555" height="1" uuid="03fd5c3a-a474-44b0-a26f-b3f05a51a6e5"/>
+			</line>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="394" y="50" width="161" height="20" uuid="5f42b8bd-a96d-4fee-ad95-38bf0de8b9f9"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="142" y="16" width="261" height="31" uuid="c3e6e85e-adda-4f05-a702-6a92b688f94c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="2" y="0" width="140" height="63" uuid="9b7b67d6-cad7-4158-ac34-f8036becff98"/>
+				<imageExpression><![CDATA["C:\\Meus_projetos_2018\\GestorAvaliacao3.0\\src\\main\\webapp\\resources\\img\\" + $F{logo}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="464" y="2" width="91" height="20" uuid="8d9f484d-a3ae-46dd-818b-1360bd744c97"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="464" y="22" width="91" height="20" uuid="d49ceae6-a186-4e57-9623-aaac92e7b91a"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cnpj}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="98" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 2" style="table 2" x="0" y="3" width="555" height="90" uuid="ccbc6de3-e158-4fc1-a182-f1cb00c7a9e8"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Resposta" uuid="15c251a8-22c6-423d-a884-5be09739be28">
+						<datasetParameter name="questaoID">
+							<datasetParameterExpression><![CDATA[$F{numeroquestao_id}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="idQuestao">
+							<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="120" uuid="92e6499b-ee6d-4f39-b8a1-e87fa5458615">
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="3" y="0" width="117" height="30" forecolor="#FFFFFF" uuid="f860c93c-fd41-4b8b-a393-bd6fad80f686"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Selecione]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table 2_CH" height="3" rowSpan="1"/>
+						<jr:detailCell style="table 2_TD" height="26" rowSpan="1">
+							<ellipse>
+								<reportElement x="54" y="7" width="13" height="13" forecolor="#006666" uuid="f6a8b0f5-1e63-4e0d-be23-f9fd6fab07e2"/>
+							</ellipse>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="433" uuid="3b2bd530-e75b-4bf3-a065-ff1fb0994111">
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="15" y="0" width="90" height="30" forecolor="#FFFFFF" uuid="31f26c45-56a8-456a-abc1-7ec24c209f5c"/>
+								<textElement verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Resposta]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table 2_CH" height="3" rowSpan="1"/>
+						<jr:detailCell style="table 2_TD" height="26" rowSpan="1">
+							<textField>
+								<reportElement x="15" y="0" width="418" height="20" uuid="78cef87b-f119-4005-8ce9-eba18fdabede"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{resposta}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

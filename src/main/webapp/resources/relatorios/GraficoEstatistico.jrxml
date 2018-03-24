@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GraficEstatic" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3478c884-f58f-4758-9bc5-df56a506e687">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="70"/>
+	<parameter name="questao_id" class="java.lang.Long"/>
+	<parameter name="dataInicio" class="java.util.Date"/>
+	<parameter name="dataFim" class="java.util.Date"/>
+	<parameter name="idQuestionario" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[SELECT
+    res.data, qe.questao, res.resposta, res.contador,emp.nome,emp.razao,emp.cnpj,emp.logo,qe.numeroquestao_id,q.id
+FROM
+    questao AS qe
+        INNER JOIN
+    respostas AS res ON (qe.numeroquestao_id = res.numeroquestao_id)
+        INNER JOIN questionario as q ON (qe.questionario_id = q.id)
+        INNER JOIN empresa as emp ON (emp.id = q.empresa_id)
+        WHERE
+    res.questao_id = $P{questao_id}
+    AND qe.questionario_id = $P{idQuestionario}
+    AND res.data BETWEEN $P{dataInicio} AND $P{dataFim}]]>
+	</queryString>
+	<field name="data" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="questao" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="resposta" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="contador" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nome" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="razao" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cnpj" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="logo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numeroquestao_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="103" splitType="Stretch">
+			<staticText>
+				<reportElement x="258" y="2" width="317" height="49" uuid="890f83f7-dacd-48dd-b3f9-b8963ebc5c48"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="32"/>
+				</textElement>
+				<text><![CDATA[Gráfico Estatísticos]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="618" y="72" width="182" height="20" uuid="c9f4d78d-39d1-4670-8a20-edc47215c5f9"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="4" y="71" width="542" height="21" uuid="224d3d5c-f3e8-4817-8c31-67d217f492d5"/>
+				<textElement verticalAlignment="Top">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="618" y="46" width="182" height="20" uuid="49979798-d767-4b0b-bab9-6adaebc0da27"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cnpj}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="3" y="2" width="226" height="66" uuid="3343b3fc-1042-4de4-a71a-7411850a6e14"/>
+				<imageExpression><![CDATA["C:\\Meus_projetos_2018\\GestorAvaliacao3.0\\src\\main\\webapp\\resources\\img\\" + $F{logo}]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="4" y="96" width="798" height="1" uuid="7ca94809-3bb5-4114-ba40-2c8bab77c28d"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="64" splitType="Stretch">
+			<textField>
+				<reportElement x="34" y="33" width="723" height="20" forecolor="#003333" uuid="6beedcf0-bb71-4932-a700-d89d169ff902"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{questao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="530" y="8" width="55" height="20" uuid="6c521d84-8695-4d44-820f-5e12110ca5bb"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[Periodo de:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="0" width="95" height="20" uuid="2ae0ec89-9579-4065-ab19-11ceffe05e06"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[QUESTÃO:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="60" width="800" height="1" uuid="c146c2dd-e45b-424a-ba3f-1e318888f6e4"/>
+			</line>
+			<textField pattern="dd/MM/yyyy h:mm a">
+				<reportElement x="607" y="8" width="83" height="20" uuid="96cc7010-2bc1-4f7f-9b37-739fbe7e81bd"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{dataInicio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="693" y="8" width="18" height="20" uuid="0baa46b6-6037-4db7-b3c6-8af2038dc74a"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[até]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy h:mm a">
+				<reportElement x="715" y="8" width="83" height="20" uuid="c9000aed-947f-41cf-92bf-d885103f7e9f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{dataFim}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3" y="33" width="14" height="20" forecolor="#003333" uuid="e5cafa05-ad35-4676-b614-461b14044b3d"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{numeroquestao_id}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="15" y="33" width="14" height="20" forecolor="#003333" uuid="1cbf9e58-0f98-40a4-8f8e-14412f1c3310"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[.ª)]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="386" splitType="Stretch">
+			<barChart>
+				<chart>
+					<reportElement x="399" y="30" width="399" height="303" uuid="76fa36d9-e467-4eaf-bd54-267b82c369b5"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{resposta}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{resposta}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{contador}]]></valueExpression>
+						<labelExpression><![CDATA[$F{contador}.toString()]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot>
+						<seriesColor seriesOrder="0" color="#5A1846"/>
+						<seriesColor seriesOrder="1" color="#910D3F"/>
+						<seriesColor seriesOrder="2" color="#C70039"/>
+						<seriesColor seriesOrder="3" color="#FF5733"/>
+						<seriesColor seriesOrder="4" color="#FFC301"/>
+						<seriesColor seriesOrder="5" color="#FF0000"/>
+						<seriesColor seriesOrder="6" color="#33FF00"/>
+						<seriesColor seriesOrder="7" color="#3F51B5"/>
+						<seriesColor seriesOrder="8" color="#FF3399"/>
+						<seriesColor seriesOrder="9" color="#FFFF33"/>
+						<seriesColor seriesOrder="10" color="#999999"/>
+						<seriesColor seriesOrder="11" color="#FF6666"/>
+						<seriesColor seriesOrder="12" color="#009999"/>
+						<seriesColor seriesOrder="13" color="#CCFFCC"/>
+						<seriesColor seriesOrder="14" color="#CCCCFF"/>
+						<seriesColor seriesOrder="15" color="#FF33FF"/>
+						<seriesColor seriesOrder="16" color="#0099FF"/>
+						<seriesColor seriesOrder="17" color="#FF3333"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<pieChart>
+				<chart>
+					<reportElement x="0" y="30" width="386" height="303" uuid="9b48982d-dccf-49a6-9004-81e55dbc8fd7"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{resposta}]]></keyExpression>
+					<valueExpression><![CDATA[$F{contador}]]></valueExpression>
+					<labelExpression><![CDATA[$F{resposta} + " ººº " + $F{contador}.toString()]]></labelExpression>
+				</pieDataset>
+				<piePlot legendLabelFormat="({2})">
+					<plot>
+						<seriesColor seriesOrder="0" color="#5A1846"/>
+						<seriesColor seriesOrder="1" color="#910D3F"/>
+						<seriesColor seriesOrder="2" color="#C70039"/>
+						<seriesColor seriesOrder="3" color="#FF5733"/>
+						<seriesColor seriesOrder="4" color="#FFFF14"/>
+						<seriesColor seriesOrder="5" color="#FF0000"/>
+						<seriesColor seriesOrder="6" color="#FF0C7B"/>
+						<seriesColor seriesOrder="7" color="#3F51B5"/>
+						<seriesColor seriesOrder="8" color="#8EFF0B"/>
+						<seriesColor seriesOrder="9" color="#AB3AB7"/>
+						<seriesColor seriesOrder="10" color="#37A8A5"/>
+						<seriesColor seriesOrder="11" color="#77DDFF"/>
+						<seriesColor seriesOrder="12" color="#FF66FF"/>
+						<seriesColor seriesOrder="13" color="#CCFFCC"/>
+						<seriesColor seriesOrder="14" color="#999999"/>
+						<seriesColor seriesOrder="15" color="#330099"/>
+						<seriesColor seriesOrder="16" color="#6666FF"/>
+					</plot>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+		</band>
+	</summary>
+</jasperReport>

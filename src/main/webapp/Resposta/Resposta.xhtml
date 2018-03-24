@@ -1,0 +1,166 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	template="/templates/Layout.xhtml">
+
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="questao" value="#{questaoBean.questao}" />
+		</f:metadata>
+
+
+		<h:form id="frm" prependId="false">
+
+			<h:inputHidden id="id" value="#{questaoBean.questao.id}"
+				readonly="true" />
+
+
+			<h3 class="page-title">
+				<i class="fa fa-gg" style="color: #1caf9a; font-size: 18px" />
+				#{questaoBean.questao.questao}
+			</h3>
+
+			<div class="clearfix"></div>
+			<div class="row">
+				<div class="col-md-12 col-sm-12">
+
+					<div class="portlet light ">
+						<div class="portlet-title">
+
+							<p:messages id="msgs" closable="true">
+								<p:effect type="pulsate" event="load" delay="500" />
+							</p:messages>
+
+
+
+							<div class="portlet">
+								<div class="portlet-title">
+
+
+									<p:toolbar id="toolbar"
+										style="margin-top: 10px; background-color:#fff;">
+
+										<p:toolbarGroup align="left">
+											<p:commandButton icon="fa fa-plus" value="Nova Questão"
+												styleClass="btn btn-sm blue-steel" type="button"
+												onclick="PF('editorWidget').clear();" />
+
+
+
+											<span class="ui-separator"> <span
+												class="ui-icon ui-icon-grip-dotted-vertical" />
+											</span>
+
+											<p:commandButton icon="fa fa-arrow-circle-right"
+												value="Adicionar" styleClass="btn btn-sm green"
+												actionListener="#{respostaBean.adicionar}"
+												update=":frm:table" />
+
+										</p:toolbarGroup>
+
+
+										<p:toolbarGroup align="right">
+
+
+											<p:button outcome="../Questao/PesquisarQuestoes.xhtml"
+											    onclick="history.go(-2);return false;"
+												ajax="false" value="Listar Questões" icon="fa fa-list"
+												styleClass="btn btn-sm blue-madison" />
+
+											<span class="ui-separator"> <span
+												class="ui-icon ui-icon-grip-dotted-vertical" />
+											</span>
+
+
+
+											<p:commandButton ajax="false" value="Salvar"
+												icon="fa fa-check" styleClass="btn btn-sm blue"
+												actionListener="#{respostaBean.salvar}"
+												action="Resposta.xhtml?faces-redirect=true"
+												update=":frm:msgs" />
+
+										</p:toolbarGroup>
+
+
+									</p:toolbar>
+
+								</div>
+							</div>
+
+							<div class="row">
+
+								<div class="col-md-6">
+
+
+
+
+									<div Class="controls">
+										<label>Digite a questão:</label>
+
+										<p:editor widgetVar="editorWidget" id="editor"
+											value="#{respostaBean.resposta.pergunta}" />
+
+									</div>
+
+
+								</div>
+
+								<div class="col-md-6">
+
+									<p:dataTable id="table" value="#{respostaBean.listaRespostas}"
+										paginator="true" paginatorPosition="bottom" var="tab" rows="5">
+
+										<p:column headerText="Respostas">
+
+											<h:outputText value="#{tab.resposta}" escape="false" />
+
+										</p:column>
+
+
+										<p:column headerText="Remover"
+											style="width:80px; text-align:center">
+
+											<p:commandButton icon="fa fa-trash"
+												styleClass="bg-red-thunderbird"
+												action="#{respostaBean.remover}" ajax="false"
+												title="Remover">
+
+												<f:setPropertyActionListener
+													target="#{respostaBean.resposta}" value="#{tab}" />
+
+											</p:commandButton>
+
+										</p:column>
+
+
+									</p:dataTable>
+
+
+								</div>
+							</div>
+
+
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+		</h:form>
+
+
+
+
+	</ui:define>
+
+</ui:composition>

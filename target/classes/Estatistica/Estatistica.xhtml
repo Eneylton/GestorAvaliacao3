@@ -1,0 +1,160 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	template="/templates/Layout.xhtml">
+
+
+	<ui:define name="content">
+
+
+		<h:form id="frm" prependId="false">
+
+			<h3 class="page-title">
+				<i class="fa fa-gg" style="color: #1caf9a; font-size: 18px" />
+				Estatistíca
+
+			</h3>
+
+			<div class="clearfix"></div>
+			<div class="row">
+				<div class="col-md-12 col-sm-12">
+
+					<div class="portlet light ">
+						<div class="portlet-title">
+
+							<p:messages id="msgs" closable="true">
+								<p:effect type="pulsate" event="load" delay="500" />
+							</p:messages>
+
+
+
+							<div class="portlet">
+								<div class="portlet-title">
+									<div class="row">
+										<div class="col-md-6">
+
+											<div class="form-group">
+
+												<label class="control-label">Inicio</label> <br />
+												<p:calendar
+													value="#{estatisticaBean.estatistica.dataInicio}"
+													pattern="dd/MM/yyyy" />
+											</div>
+											
+											<div class="form-group">
+											
+											<label class="control-label">Questionario</label> <br />
+
+												<p:selectOneMenu id="questionario"
+													styleClass="form-control select2"
+													converter="omnifaces.SelectItemsConverter"
+													value="#{estatisticaBean.questionario}" style="width:300px;">
+
+													<f:selectItem itemLabel="Selecione o Estado" />
+													<f:selectItems value="#{estatisticaBean.listarQuestionarios}"
+														var="var" itemLabel="#{var.titulo}" itemValue="#{var}" />
+
+													<p:ajax listener="#{estatisticaBean.popular}"
+														update=":frm:questao" />
+												</p:selectOneMenu>
+
+
+											</div>
+											
+											<p:commandButton ajax="false" icon="fa fa-pie-chart"
+												value="Pesquisar" styleClass="btn blue"
+												action="#{estatisticaBean.consultar}" />
+
+											<p:spacer style="width:15px" />
+
+											<p:commandButton ajax="false" icon="fa fa-pie-chart"
+												value="Exporta PDF" styleClass="btn green"
+												onclick="this.form.target='_blank'"
+												actionListener="#{estatisticaBean.gerarGrafico}"
+												action="Estatistica.xhtml?faces-redirect=true"
+												update=":frm:chart1" />
+											
+											
+											
+										</div>
+										
+										<div class="col-md-6">
+
+											<div class="form-group">
+
+												<label class="control-label">Fim</label> <br />
+
+												<p:calendar value="#{estatisticaBean.estatistica.dataFim}"
+													pattern="dd/MM/yyyy" />
+
+											</div>
+											
+											<div class="form-group">
+												<label class="control-label">Questões</label> <br />
+
+												<p:selectOneMenu id="questao" styleClass="select2-drop-mask"
+													value="#{estatisticaBean.questao}">
+													<f:selectItem itemLabel="Selecione uma Questão" />
+													<f:selectItems value="#{estatisticaBean.listarQuestoesporQuestionario}"
+														var="var" itemLabel="#{var.questao}" itemValue="#{var}" />
+												</p:selectOneMenu>
+
+											</div>
+											
+										</div>
+										
+									</div>
+
+								</div>
+							</div>
+
+							<p:chart id="chart1" type="pie"
+								model="#{estatisticaBean.pieModelTipo}" />
+
+							<hr />
+
+
+							<p:dataTable value="#{estatisticaBean.listarRespostas}"
+								var="resposta" emptyMessage="Nenhum Arquivo Cadastrado...."
+								rows="10">
+
+								<p:column headerText="Código"
+									style="width:80px; text-align:center;">
+									<h:outputText value="#{resposta.id}" />
+								</p:column>
+
+
+								<p:column headerText="Respostas" style="width:200px; ">
+									<h:outputText value="#{resposta.resposta}" />
+								</p:column>
+
+								<p:column headerText="Total"
+									style="width:80px; text-align:center;">
+									<h:outputText value="#{resposta.contador}" />
+								</p:column>
+
+
+
+
+							</p:dataTable>
+
+
+
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+
+		</h:form>
+
+
+
+
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,228 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	template="/templates/Layout.xhtml">
+
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="questionario"
+				value="#{questionarioBean.questionario}" />
+		</f:metadata>
+
+
+		<h:form id="frm" prependId="false">
+
+			<h:inputHidden id="id" value="#{questionarioBean.questionario.id}"
+				readonly="true" />
+
+
+			<h3 class="page-title">
+				<i class="fa fa-gg" style="color: #1caf9a; font-size: 18px" />
+				#{questionarioBean.questionario.titulo}
+			</h3>
+
+			<div class="clearfix"></div>
+			<div class="row">
+				<div class="col-md-12 col-sm-12">
+
+					<div class="portlet light ">
+						<div class="portlet-title">
+
+							<p:messages id="msgs" closable="true">
+								<p:effect type="pulsate" event="load" delay="500" />
+							</p:messages>
+
+
+
+							<div class="portlet">
+								<div class="portlet-title">
+
+
+									<p:toolbar id="toolbar"
+										style="margin-top: 10px; background-color:#fff;">
+
+										<p:toolbarGroup align="left">
+											<p:commandButton icon="fa fa-plus" value="Nova Questão"
+												styleClass="btn btn-sm blue-steel" type="Reset"
+												update="idsetor" />
+
+
+										</p:toolbarGroup>
+
+
+										<p:toolbarGroup align="right">
+
+											<p:commandButton icon="fa fa-arrow-circle-right"
+												value="Adicionar" styleClass="btn btn-sm green"
+												actionListener="#{questaoBean.adicionar}"
+												update=":frm:table" />
+
+											<span class="ui-separator"> <span
+												class="ui-icon ui-icon-grip-dotted-vertical" />
+											</span>
+
+											<p:commandButton ajax="false" value="Salvar"
+												icon="fa fa-check" styleClass="btn btn-sm blue"
+												actionListener="#{questaoBean.salvar}"
+												action="../Questionario/Questionario.xhtml?faces-redirect=true"
+												update=":frm:msgs" />
+
+										</p:toolbarGroup>
+
+
+									</p:toolbar>
+
+								</div>
+							</div>
+
+							<div class="row">
+
+								<div class="col-md-6">
+
+
+
+									<div Class="controls">
+										<p:outputLabel value="Setor a ser avaliado" for="idsetor" />
+										<br />
+
+										<p:selectOneMenu id="idsetor" style="width:100%;"
+										required="true" requiredMessage="Campo Obrigatório !!!"
+											styleClass="form-control" filter="true"
+											converter="omnifaces.SelectItemsConverter"
+											value="#{questaoBean.questao.setor}">
+											<f:selectItem itemLabel="Selcione o Setor" />
+											<f:selectItems value="#{questaoBean.listarSetor}" var="var"
+												itemLabel="#{var.descricao}" itemValue="#{var}" />
+										</p:selectOneMenu>
+										<br />
+
+									</div>
+
+
+									<div Class="controls">
+										<p:outputLabel value="Questão de multipla escolha" />
+										<br />
+
+
+										<p:selectOneRadio id="idOne"
+											value="#{questaoBean.questao.checkin}">
+											<f:selectItem itemLabel="Sim" itemValue="1" />
+											<f:selectItem itemLabel="Não" itemValue="0" />
+
+										</p:selectOneRadio>
+										
+										<br />
+
+									</div>
+									
+									<div Class="controls">
+										<p:outputLabel value="Pergunta Subjetivas" />
+										<br />
+
+
+										<p:selectOneRadio id="idSub"
+											value="#{questaoBean.questao.subjetivas}">
+											<f:selectItem itemLabel="Sim" itemValue="1" />
+											<f:selectItem itemLabel="Não" itemValue="0" />
+
+										</p:selectOneRadio>
+										
+										<br />
+
+									</div>
+									
+
+
+
+
+								</div>
+
+								<div class="col-md-6">
+									<div Class="controls">
+
+										<p:outputLabel value="Adicione uma nova questão" />
+										<br />
+
+										<p:editor widgetVar="editorWidget" id="editor" height="150"
+											value="#{questaoBean.questao.pergunta}"
+										 />
+
+									</div>
+
+
+
+									<br />
+								</div>
+
+								<div class="col-md-12">
+
+									<p:dataTable id="table" value="#{questaoBean.listaQuestoes}"
+										paginator="true" paginatorPosition="bottom" var="tab"
+										rows="12">
+
+										<p:column headerText="#" style="width:70px;">
+
+											<h:outputText value="Nª #{tab.numeroQuestao}" escape="false" />
+
+										</p:column>
+
+										<p:column headerText="Questões">
+
+											<h:outputText value="#{tab.questao}" escape="false" />
+
+										</p:column>
+
+
+										<p:column headerText="Setor Avaliado" style="width:170px;">
+
+											<h:outputText value="#{tab.setor.descricao}" escape="false" />
+
+										</p:column>
+
+
+										<p:column headerText="Remover"
+											style="width:80px; text-align:center">
+
+											<p:commandButton icon="fa fa-trash"
+												styleClass="bg-red-thunderbird"
+												action="#{questaoBean.remover}" ajax="false" title="Remover">
+
+												<f:setPropertyActionListener target="#{questaoBean.questao}"
+													value="#{tab}" />
+
+											</p:commandButton>
+
+										</p:column>
+
+
+									</p:dataTable>
+
+								</div>
+
+							</div>
+
+
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+		</h:form>
+
+
+
+
+	</ui:define>
+
+</ui:composition>

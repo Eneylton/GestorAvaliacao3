@@ -1,0 +1,208 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	template="/templates/Layout.xhtml">
+
+
+	<ui:define name="content">
+
+
+
+		<h:form id="frm" prependId="false">
+
+
+
+			<h3 class="page-title">
+				<i class="fa fa-gg" style="color: #1caf9a; font-size: 18px" />
+				Lista de Questões
+
+			</h3>
+
+			<div class="clearfix"></div>
+			<div class="row">
+				<div class="col-md-12 col-sm-12">
+
+					<div class="portlet light ">
+						<div class="portlet-title">
+
+							<p:messages id="msgs" closable="true">
+								<p:effect type="pulsate" event="load" delay="500" />
+							</p:messages>
+
+
+
+							<div class="portlet">
+								<div class="portlet-title">
+
+									<p:toolbar id="toolbar"
+										style="margin-top: 10px; background-color:#fff;">
+
+										<p:toolbarGroup align="left">
+
+
+
+											<span class="caption-subject font-green-sharp bold uppercase">Lista
+												de Questionários</span>
+											<span class="caption-helper">Adicione uma resposta para cada questão...</span>
+
+
+
+										</p:toolbarGroup>
+
+
+										<p:toolbarGroup align="right">
+
+											<p:button styleClass="btn btn-sm green-meadow" type="button"
+												value="Questionario"
+												outcome="../Questionario/Questionario.xhtml"
+												icon="fa fa-search" />
+
+
+										</p:toolbarGroup>
+
+
+									</p:toolbar>
+
+								</div>
+							</div>
+
+							<div class="row">
+
+								<p:dataTable value="#{pesquisarQuestaoBean.listarQuestaos}"
+									filteredValue="#{pesquisarQuestaoBean.pesquisaQuestoes}"
+									var="questao" widgetVar="questaoTable" reflow="true"
+									emptyMessage="Nenhum Arquivo Cadastrado...." rows="13"
+									paginator="true" paginatorPosition="bottom"
+									style="margin-top: 10px" id="questaoTable"
+									selection="#{pesquisarQuestaoBean.questaoSelecionada}"
+									selectionMode="single" rowKey="#{questao.id}">
+
+									<f:facet name="header">
+										<p:outputPanel>
+											<p:spacer style="margin:15px 0px;" />
+
+											<p:inputText id="globalFilter" style="width:350px"
+												onkeyup="PF('questaoTable').filter()"
+												placeholder="Pesquisar" />
+										</p:outputPanel>
+									</f:facet>
+
+									<p:ajax event="rowSelect" update=":frm:toolbar" />
+									<p:ajax event="rowUnselect" update=":frm:toolbar" />
+
+
+
+									<p:column style="width:10px; text-align:left;"
+										headerText="#" priority="4"
+										filterBy="#{questao.numeroQuestao_id} ">
+										<i class="fa fa-circle-o text-blue"></i>
+										<p:spacer style="width:10px;" />
+										<h:outputText value="#{questao.numeroQuestao_id}ª )" />
+									</p:column>
+
+									<p:column style="width:180px; text-align:left;"
+										headerText="Questão" priority="4"
+										filterBy="#{questao.questao}">
+										<i class="fa fa-commenting" style="color: #3c8dbc" />
+										<p:spacer style="width:10px;" />
+										<h:outputText value="#{questao.questao}" />
+									</p:column>
+
+
+									<p:column style="width:50px; text-align:left;"
+										headerText="Questionário" priority="4"
+										filterBy="#{questao.questionario.titulo} ">
+										<i class="fa fa-toggle-on" />
+										<p:spacer style="width:10px;" />
+										<h:outputText value="#{questao.questionario.titulo} " />
+									</p:column>
+
+									<p:column style="width:20px; text-align:center;"
+										headerText="Lista de Resposta">
+
+										<p:commandButton styleClass="btn btn-sm blue-hoki"
+											icon="fa fa-list" process="@this"
+											oncomplete="PF('mostrarRespostas').show();"
+											action="#{pesquisarQuestaoBean.buscarRespostas}"
+											update=":frm:mostrarRespostasDG">
+
+											<f:setPropertyActionListener value="#{questao}"
+												target="#{pesquisarQuestaoBean.questaoSelecionada}" />
+
+
+										</p:commandButton>
+
+									</p:column>
+
+									<p:column style="width:20px; text-align:center;"
+										headerText="Add Respostas">
+
+										<p:button styleClass="btn grey-cascade" type="button"
+											outcome="../Resposta/Resposta.xhtml" icon="fa fa-plus">
+
+											<f:param name="questao" value="#{questao.id}" />
+
+										</p:button>
+
+
+
+									</p:column>
+
+
+
+								</p:dataTable>
+
+
+								<p:dialog id="mostrarRespostasDG" header="Lista de Respostas"
+									width="450" closeOnEscape="true" widgetVar="mostrarRespostas"
+									resizable="false" modal="true" showEffect="fade"
+									hideEffect="fade">
+
+									<p:dataTable var="res" paginatorPosition="bottom"
+										paginator="true"
+										value="#{pesquisarQuestaoBean.listaRespostas}"
+										emptyMessage="Nenhum Arquivo Cadastrado....">
+
+										<p:column headerText="#" style="width:70px; text-align:center">
+
+											<i class="icon-pin font-blue" />
+											<p:spacer style="width:10px;" />
+
+										</p:column>
+
+										<p:column headerText="Respostas">
+											<h:outputText value="#{res.resposta}" />
+										</p:column>
+									</p:dataTable>
+
+								</p:dialog>
+
+
+
+							</div>
+						</div>
+
+
+
+
+					</div>
+				</div>
+
+				<p:dialog header="Basic Dialog" widgetVar="dlg1" minHeight="40">
+					<h:outputText value="Resistance to PrimeFaces is futile!" />
+				</p:dialog>
+
+
+
+			</div>
+
+		</h:form>
+
+
+
+
+	</ui:define>
+
+</ui:composition>

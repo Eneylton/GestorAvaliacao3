@@ -1,0 +1,135 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	template="/templates/LayoutQuestionario.xhtml">
+
+	<ui:define name="content">
+		<f:metadata>
+			<o:viewParam name="participantes"
+				value="#{participantesBean.participantes}" />
+		</f:metadata>
+
+
+		<h:form id="frm" prependId="false" styleClass="lock-form pull-left">
+
+			<h3 class="form-section" style="margin-top: 0px; color: #009688;">
+				<p:outputLabel value="#{avaliacaoBean.questao.setor.descricao}" />
+			</h3>
+
+			<h:outputLabel for="resposta"
+				rendered="#{avaliacaoBean.questao.numeroQuestao_id eq '0'}"
+				value="Agradecemos a colaboração na resposta a este Questionário.
+                Informamos que pode aceder às apresentações do Evento através do link:"
+				style="color:#ff0000; font-size:16px; padding:6px;" />
+
+
+			<h:outputLabel for="resposta"
+				rendered="#{avaliacaoBean.questao.numeroQuestao_id != null}"
+				style="color:#666; font-size:16px; padding:6px;"
+				value="#{avaliacaoBean.questao.numeroQuestao_id } ª) 
+					  #{avaliacaoBean.questao.questao}" />
+
+
+
+
+			<p />
+
+			<p:panel id="objetivas"
+				style="background: #ccc !important;
+                               color: #666 !important;
+                               font-weight: normal !important;"
+				rendered="#{avaliacaoBean.respostasObjetivas}">
+
+				<div class="well">
+
+					<p:selectOneRadio value="#{avaliacaoBean.idRespostaSelect}"
+						rendered="#{avaliacaoBean.renderedRadio}" layout="grid"
+						columns="1" id="resposta" required="true"
+						requiredMessage="Campos obrigatório !!!">
+						<f:selectItems value="#{avaliacaoBean.respostas}" var="resposta"
+							itemValue="#{resposta.id}" itemLabel="#{resposta.resposta}" />
+					</p:selectOneRadio>
+
+					<p:selectManyCheckbox id="respostaCheck"
+						value="#{avaliacaoBean.idRespostasSelected}"
+						rendered="#{avaliacaoBean.renderedCheck}" layout="grid"
+						columns="1">
+						<f:selectItems value="#{avaliacaoBean.respostas}" var="res"
+							itemLabel="#{res.resposta}" itemValue="#{res.id}" />
+					</p:selectManyCheckbox>
+
+
+				</div>
+
+				<p:commandButton value="Próxima Questão"
+					styleClass="btn btn-sm red-intense"
+					icon="fa fa-chevron-circle-right" iconPos="right"
+					action="#{avaliacaoBean.registraRespostas}" ajax="false"
+					update=":frm:objetivas" process="@form" />
+
+
+			</p:panel>
+
+
+
+			<p:panel id="subjetiva"
+				rendered="#{avaliacaoBean.respostasSubjetivas}">
+				<p:inputTextarea rows="10" cols="40"
+					value="#{avaliacaoBean.aberta.respostas}" />
+				<div class="form-actions" style="text-align: right">
+
+					<p:commandButton ajax="false" value="Encerrar Pesquisa"
+						icon="fa fa-check" styleClass="btn btn-sm blue"
+						actionListener="#{avaliacaoBean.registraRespostas}"
+						action="../Questao/Final.xhtml?faces-redirect=true" />
+
+				</div>
+
+			</p:panel>
+
+			<p:panel id="fim" rendered="#{avaliacaoBean.fim}">
+
+
+				<div class="note note-success note-bordered">
+					<p>Agradecemos a colaboração na resposta a este Questionário.
+
+Informamos que pode aceder às apresentações do Evento através do link:</p>
+				</div>
+
+				<div class="portlet light">
+					<div class="portlet-title">
+						<div class="caption font-purple-plum">
+							<i class="icon-speech font-purple-plum"></i> <span
+								class="caption-subject bold uppercase"> Parabéns</span> <span
+								class="caption-helper">Sua participação foi esencial para
+								nosso pesquisa de clima organizacional</span>
+						</div>
+						<div class="actions">
+							<p:spacer style="margin-left:10px;" />
+							<div class="btn-group">
+								<a class="btn btn-circle btn-default btn-sm" href="javascript:;"
+									data-toggle="dropdown"> <i class="fa fa-user"></i> Dúvidas
+									<i class="fa fa-angle-down"></i>
+								</a>
+
+
+							</div>
+							<a href="javascript:;" class="btn btn-circle red-sunglo btn-sm">
+								<i class="fa fa-plus"></i> Add
+							</a> 
+						</div>
+					</div>
+				</div>
+
+
+
+			</p:panel>
+
+		</h:form>
+
+
+	</ui:define>
+
+</ui:composition>

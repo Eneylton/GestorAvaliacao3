@@ -1,0 +1,135 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	template="/templates/Layout.xhtml">
+
+
+	<ui:define name="content">
+	
+	<f:metadata>
+			<o:viewParam name="questionario"
+				value="#{questionarioBean.questionario}" />
+		</f:metadata>
+
+		<h:form id="frm" prependId="false">
+
+			<h:inputHidden id="id" value="#{questionarioBean.questionario.id}"
+				readonly="true" />
+
+
+			<h3 class="page-title">
+				<i class="fa fa-gg" style="color: #1caf9a; font-size: 23px" />
+				#{questionarioBean.questionario.titulo}
+			</h3>
+
+			<div class="clearfix"></div>
+			<div class="row">
+				<div class="col-md-12 col-sm-12">
+
+					<div class="portlet light ">
+						<div class="portlet-title">
+
+							<p:messages id="msgs" closable="true">
+								<p:effect type="pulsate" event="load" delay="500" />
+							</p:messages>
+
+
+
+							<div class="portlet">
+								<div class="portlet-title">
+
+
+									<p:toolbar id="toolbar"
+										style="margin-top: 10px; background-color:#fff;">
+
+										<p:toolbarGroup align="left">
+											<span class="caption-subject font-green-sharp bold uppercase">Lista
+												de Questionários</span>
+											<span class="caption-helper">Adicione os
+												participantes...</span>
+										</p:toolbarGroup>
+
+								
+									</p:toolbar>
+
+								</div>
+							</div>
+
+
+							<p:dataTable
+								value="#{participantesQuestionarioBean.listaParticipantesQuest}"
+								var="participantes"  widgetVar="participantesTable" reflow="true"
+								emptyMessage="Nenhum Arquivo Cadastrado...." rows="13"
+								paginator="true" paginatorPosition="bottom"
+								style="margin-top: 10px" id="participantesTable"
+								selection="#{participantesQuestionarioBean.participantesSelecionada}"
+								selectionMode="single" rowKey="#{participantes.id}">
+
+								<f:facet name="header">
+									<p:outputPanel>
+										<p:spacer style="margin:15px 0px;" />
+
+										<p:inputText id="globalFilter" style="width:350px"
+											onkeyup="PF('participantesTable').filter()"
+											placeholder="Pesquisar" />
+									</p:outputPanel>
+								</f:facet>
+
+								<p:ajax event="rowSelect" update=":frm:toolbar" />
+								<p:ajax event="rowUnselect" update=":frm:toolbar" />
+
+								<p:column headerText="Código"
+									style="width:50px; text-align:center;">
+									<i class="fa fa-circle-o text-blue"></i>
+									<p:spacer style="width:10px;" />
+									<h:outputText value="#{participantes.id}" />
+								</p:column>
+								
+							
+								<p:column style="width:200px; text-align:left;"
+									headerText="Participantes" priority="4"
+									filterBy="#{participantes.avaliacaoParticipantes.participantes.nome}">
+									<i class="fa  fa-user" style="color: #3c8dbc" />
+									<p:spacer style="width:10px;" />
+									<h:outputText value="#{participantes.avaliacaoParticipantes.participantes.nome}" />
+								</p:column>
+								
+								<p:column style="width:200px; text-align:left;"
+									headerText="Participantes" priority="4"
+									filterBy="#{participantes.avaliacaoParticipantes.participantes.email}" >
+									<i class="fa fa-envelope" style="color: #3c8dbc" />
+									<p:spacer style="width:10px;" />
+									<h:outputText value="#{participantes.avaliacaoParticipantes.participantes.email}" />
+								</p:column>
+
+								<p:column style="width:50px; text-align:center;"
+									headerText="Avaliação">
+
+									<p:button styleClass="btn blue-hoki" type="button"
+										outcome="../Avaliacao/Avaliacao.xhtml" icon="fa fa-plus">
+
+										<f:param name="participantes" value="#{participantes.avaliacaoParticipantes.participantes.id}" />
+
+									</p:button>
+
+								</p:column>
+
+
+							</p:dataTable>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+			
+		</h:form>
+
+
+	</ui:define>
+
+</ui:composition>

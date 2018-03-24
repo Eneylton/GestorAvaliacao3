@@ -1,0 +1,266 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	template="/templates/Layout.xhtml">
+
+
+	<ui:define name="content">
+
+		<h:form id="frm" prependId="false">
+
+			<h:inputHidden id="id" value="#{questionarioBean.questionario.id}"
+				readonly="true" />
+
+
+			<h3 class="page-title">
+				<i class="fa fa-gg" style="color: #1caf9a; font-size: 23px" />
+				Questionário
+			</h3>
+
+			<div class="clearfix"></div>
+			<div class="row">
+				<div class="col-md-12 col-sm-12">
+
+					<div class="portlet light ">
+						<div class="portlet-title">
+
+							<p:messages id="msgs" closable="true">
+								<p:effect type="pulsate" event="load" delay="500" />
+							</p:messages>
+
+
+
+							<div class="portlet">
+								<div class="portlet-title">
+
+
+									<p:toolbar id="toolbar"
+										style="margin-top: 10px; background-color:#fff;">
+
+										<p:toolbarGroup align="left">
+											<span class="caption-subject font-green-sharp bold uppercase">Lista
+												de Questionários</span>
+											<span class="caption-helper">Adicione os
+												Colaborador...</span>
+										</p:toolbarGroup>
+
+										<p:toolbarGroup align="right">
+
+											<p:commandButton value="Novo" icon="fa fa-plus"
+												styleClass="btn btn-sm blue-steel"
+												action="#{questionarioBean.prepararNovoCadastro}"
+												process="@this" update="formulario-dialog"
+												oncomplete="PF('edicaoDialog').show()">
+
+
+												<p:resetInput target="formulario-dialog" />
+											</p:commandButton>
+											<span class="ui-separator"> <span
+												class="ui-icon ui-icon-grip-dotted-vertical" />
+											</span>
+
+
+											<p:commandButton icon="fa fa-pencil" title="Editar"
+												styleClass="btn btn-sm blue-madison" value="Editar"
+												id="btn2" process="@this" update="formulario-dialog"
+												oncomplete="PF('edicaoDialog').show()"
+												disabled="#{questionarioBean.questionarioSelecionada == null}">
+
+
+												<p:resetInput target="formulario-dialog" />
+
+												<f:setPropertyActionListener
+													value="#{questionarioBean.questionarioSelecionada}"
+													target="#{questionarioBean.questionarioEdicao}" />
+											</p:commandButton>
+
+											<p:spacer style="margin-left:10px" />
+
+											<p:commandButton icon="fa fa-trash" title="Excluir"
+												styleClass="btn btn-sm blue-hoki" value="Excluir" id="btn3"
+												process="@this"
+												update=":frm:questionarioTable :frm:msgs :frm:toolbar"
+												action="#{questionarioBean.excluir}"
+												disabled="#{questionarioBean.questionarioSelecionada == null}">
+
+
+
+												<p:confirm icon="ui-icon-alert"
+													header="Confirmação de exclusão"
+													message="Tem Certeza que Deseja Excluir esse questionario ?" />
+
+											</p:commandButton>
+
+										</p:toolbarGroup>
+
+
+									</p:toolbar>
+
+								</div>
+							</div>
+
+
+							<p:dataTable value="#{questionarioBean.listarQuestionarios}"
+								var="questionario" widgetVar="questionarioTable" reflow="true"
+								emptyMessage="Nenhum Arquivo Cadastrado...." rows="13"
+								paginator="true" paginatorPosition="bottom"
+								style="margin-top: 10px" id="questionarioTable"
+								selection="#{questionarioBean.questionarioSelecionada}"
+								selectionMode="single" rowKey="#{questionario.id}">
+
+								<f:facet name="header">
+									<p:outputPanel>
+										<p:spacer style="margin:15px 0px;" />
+
+										<p:inputText id="globalFilter" style="width:350px"
+											onkeyup="PF('questionarioTable').filter()"
+											placeholder="Pesquisar" />
+									</p:outputPanel>
+								</f:facet>
+
+								<p:ajax event="rowSelect" update=":frm:toolbar" />
+								<p:ajax event="rowUnselect" update=":frm:toolbar" />
+
+								<p:column style="width:60px; text-align:center;"
+									headerText="Add Questões">
+
+									<p:button styleClass="btn green-meadow" type="button"
+										title="Adicionar Questões" outcome="../Questao/Questao.xhtml"
+										icon="fa fa-commenting-o">
+
+										<f:param name="questionario" value="#{questionario.id}" />
+
+									</p:button>
+
+
+									<p:button styleClass="btn btn-sm yellow" type="button"
+										outcome="../Questao/PesquisarQuestoes.xhtml"
+										title="Adicionar Respostas" icon="fa fa-commenting">
+
+										<f:param name="questionario" value="#{questionario.id}" />
+
+									</p:button>
+
+									<p:button styleClass="btn btn-sm red" type="button"
+										outcome="../Participantes/ListarParticipantes.xhtml"
+										icon="fa fa-user-plus" title="Adicionar Participantes">
+
+										<f:param name="questionario" value="#{questionario.id}" />
+
+									</p:button>
+
+
+
+
+
+								</p:column>
+
+								<p:column style="width:200px; text-align:left;"
+									headerText="Titulo do questionário" priority="4"
+									filterBy="#{questionario.titulo}">
+									<i class="fa  fa-wrench" style="color: #3c8dbc" />
+									<p:spacer style="width:10px;" />
+									<h:outputText value="#{questionario.titulo}" />
+								</p:column>
+
+
+
+
+								<p:column style="width:50px; text-align:center;"
+									headerText="Ações">
+
+									<p:commandButton styleClass="btn btn-sm red-intense"
+										ajax="false" title="Imprimir Questionário"
+										icon="fa fa-external-link-square" process="@this"
+										immediate="true" onclick="this.form.target='_blank'"
+										action="#{questionarioBean.avaliacaoPDF}">
+
+										<f:setPropertyActionListener value="#{questionario}"
+											target="#{questionarioBean.questionarioSelecionada}" />
+									</p:commandButton>
+
+									<p:button styleClass="btn blue-hoki" type="button"
+										outcome="../Participantes/ListaEmail.xhtml"
+										icon="fa fa-envelope" title="Enviar Email">
+
+										<f:param name="questionario" value="#{questionario.id}" />
+
+									</p:button>
+
+									<p:button styleClass="btn btn-sm blue" type="button"
+										outcome="../Questionario/ListaParticipantesQuestionario.xhtml"
+										icon="fa fa-star" title="Teste Avaliação">
+
+										<f:param name="questionario" value="#{questionario.id}" />
+
+									</p:button>
+
+								</p:column>
+
+
+
+							</p:dataTable>
+
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+			<p:dialog header="Novo Questionário" widgetVar="edicaoDialog"
+				styleClass="modal-header" showEffect="explode" hideEffect="explode"
+				id="formulario-dialog" resizable="false" modal="true"
+				closeOnEscape="true">
+
+				<p:messages id="msgs-dialog" closable="true">
+					<p:effect type="pulsate" event="load" delay="500" />
+				</p:messages>
+				<p:defaultCommand target="salvar-button" scope="formulario-dialog" />
+
+				<br />
+
+				<p:panelGrid columns="2" styleClass="semBorda" id="painel-dialog">
+
+
+					<p:outputLabel value="Titulo" />
+
+					<p:inputText id="serv" maxlength="80" style="width:250px"
+						styleClass="form-control"
+						value="#{questionarioBean.questionarioEdicao.titulo}"
+						required="true" />
+
+				</p:panelGrid>
+				<hr />
+
+				<p:commandButton value="Salvar" id="salvar-button"
+					styleClass="btn btn-sm blue-hoki" icon="fa fa-plus"
+					action="#{questionarioBean.salvar}" process="formulario-dialog"
+					update=":frm:questionarioTable :frm:msgs-dialog :frm:painel-dialog"
+					oncomplete="if (!args.validationFailed) PF('edicaoDialog').hide()" />
+			</p:dialog>
+
+
+
+		</h:form>
+
+		<h:form>
+			<p:confirmDialog global="true">
+
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no btn btn-sm red" icon="fa fa-times" />
+
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes btn btn-sm default"
+					icon="fa fa-check" />
+			</p:confirmDialog>
+		</h:form>
+
+
+	</ui:define>
+
+</ui:composition>

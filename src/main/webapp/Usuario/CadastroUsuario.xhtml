@@ -1,0 +1,155 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui"
+	template="/templates/Layout.xhtml">
+
+	<ui:define name="content">
+		<f:metadata>
+			<o:viewParam name="usuario" value="#{cadastroUsuarioBean.usuario}" />
+		</f:metadata>
+
+
+		<h1 class="aw-page-title">
+			<i class="fa fa-unlock-alt" /> Usuários
+		</h1>
+
+		<p:separator style="margin:-10px 0px;" />
+
+		<h:form id="frm" prependId="false">
+			<p:messages id="messages" closable="true">
+				<p:effect type="pulsate" event="load" delay="500" />
+			</p:messages>
+
+			<p:spacer />
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+
+					<p:commandButton ajax="false" value="Cadastrar" icon="fa fa-check"
+						action="#{cadastroUsuarioBean.salvar}"
+						styleClass="btn btn-info btn-sm dropdown-toggle"
+						style="padding:5px;    text-shadow: 0 1px 0 rgba(230, 69, 69, 0); 
+								-moz-box-shadow: inset 0 1px 0 rgba(230, 69, 69, 0);
+   								-webkit-box-shadow: inset 0 1px 0 rgba(230, 69, 69, 0); 
+                                 box-shadow: inset 0 1px 0 rgba(230, 69, 69, 0); " />
+
+
+					<div class="pull-right">
+						<div class="btn-group">
+							<p:button type="button" value="Pesquisar" icon="fa fa-search"
+								outcome="PesquisaUsuario"
+								styleClass="btn btn-success btn-sm dropdown-toggle"
+								style="padding:5px;    text-shadow: 0 1px 0 rgba(230, 69, 69, 0); 
+								-moz-box-shadow: inset 0 1px 0 rgba(230, 69, 69, 0);
+   								-webkit-box-shadow: inset 0 1px 0 rgba(230, 69, 69, 0); 
+                                 box-shadow: inset 0 1px 0 rgba(230, 69, 69, 0); " />
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<hr />
+
+
+
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<i class="fa fa-unlock-alt" /> Cadastre um novo usuário.
+				</div>
+
+				<div class="panel-body">
+					<div id="morris-line-chart">
+
+						<p:panelGrid columns="4" styleClass="semBorda">
+
+							<p:outputLabel value="Login:" />
+
+							<p:inputText styleClass="form-control" id="login" maxlength="255"
+								value="#{cadastroUsuarioBean.usuario.login}" required="true" />
+
+							<p:outputLabel value="Nome Completo:" />
+							<p:inputText styleClass="form-control" id="nomeCompleto"
+								maxlength="255"
+								value="#{cadastroUsuarioBean.usuario.nomeCompleto}"
+								required="true" />
+
+							<p:outputLabel value="Amin:" />
+
+							<p:selectOneRadio id="ad"
+								value="#{cadastroUsuarioBean.usuario.admin}">
+								<f:selectItem itemLabel="Sim" itemValue="S" />
+								<f:selectItem itemLabel="Não" itemValue="N" />
+
+							</p:selectOneRadio>
+							
+								<p:outputLabel value="Empresa:" />
+
+
+							<p:selectOneMenu var="usu" id="autoghhg" style="width:100%;"
+								filter="true" filterMatchMode="contains"
+								styleClass="form-control"
+								converter="omnifaces.SelectItemsConverter"
+								value="#{cadastroUsuarioBean.usuario.empresa}">
+								<f:selectItem itemLabel="Selecione uma Empresa" />
+								<f:selectItems value="#{empresaBean.listarEmpresas}"
+									var="var" itemLabel="#{var.nome}" itemValue="#{var}" />
+
+								<p:column headerText="logo">
+									<p:graphicImage value="../resources/img/#{usu.logo}"
+										style="width: 100px; height: 35px;" />
+								</p:column>
+
+
+								<p:column headerText="Empresa">
+                     										  #{usu.nome} 
+                           								</p:column>
+
+
+							</p:selectOneMenu>
+
+							<p:outputLabel />
+							<p:outputLabel />
+
+							<p:outputLabel value="Situação:" />
+
+							<p:selectOneRadio id="situacao"
+								value="#{cadastroUsuarioBean.usuario.situacao}">
+								<f:selectItem itemLabel="Ativo" itemValue="A" />
+								<f:selectItem itemLabel="Inativo" itemValue="I" />
+
+							</p:selectOneRadio>
+
+							<p:outputLabel />
+							<p:outputLabel />
+
+							<p:outputLabel value="Senha:" />
+
+							<p:password id="senha" size="20" styleClass="form-control"
+								value="#{cadastroUsuarioBean.usuario.senha}" match="senha2"
+								required="true" />
+
+							<p:outputLabel />
+							<p:outputLabel />
+
+							<p:outputLabel value="Confirmar Senha:" />
+							<p:password id="senha2" size="20" label="Confirmar Senha"
+								styleClass="form-control" required="true" />
+
+						</p:panelGrid>
+
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
